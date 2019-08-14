@@ -208,19 +208,10 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="tfCadastroSala">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Digite a Sala"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="tfCadastroDescricao">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Digite a Descri&#xe7;&#xe3;o"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="tfCadastroCapacidade">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Digite a Capacidade"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="tfCadastroTipo">
           <Properties>
@@ -236,6 +227,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Salvar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarSalaActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

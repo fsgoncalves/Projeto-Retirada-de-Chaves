@@ -5,6 +5,9 @@
  */
 package br.com.ftec.chaves.view;
 
+import br.com.ftec.chaves.model.Sala;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author fernando.goncalves
@@ -68,17 +71,16 @@ public class CadastroSala extends javax.swing.JFrame {
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/ftec/chaves/view/resources/logo_ibgen.png"))); // NOI18N
 
-        tfCadastroSala.setText("Digite a Sala");
-
-        tfCadastroDescricao.setText("Digite a Descrição");
-
-        tfCadastroCapacidade.setText("Digite a Capacidade");
-
         tfCadastroTipo.setText("Digite o Tipo da Sala");
 
         btnCancelarSala.setText("Cancelar");
 
         btnSalvarSala.setText("Salvar");
+        btnSalvarSala.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarSalaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -211,6 +213,42 @@ public class CadastroSala extends javax.swing.JFrame {
         frameReservas.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_mniReservasActionPerformed
+
+    private void btnSalvarSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarSalaActionPerformed
+        // TODO add your handling code here:
+        Sala sala = new Sala();
+        sala.setSala(tfCadastroSala.getText());
+        sala.setCapacidade(tfCadastroCapacidade.getText());
+        sala.setDescricao(tfCadastroDescricao.getText());
+        sala.setTipo(tfCadastroTipo.getText());
+        
+        String mensagem = 
+            " Sala: " + sala.getSala() + "\n Capacidade: " + sala.getCapacidade() +
+            "\n Tipo: " + sala.getTipo() + "\n Descrição: " + sala.getDescricao() +
+            "\n \n Salvo com Sucesso!";
+        //JOptionPane.showMessageDialog(this, mensagem);
+        int confirma = JOptionPane.showConfirmDialog
+        (this, "Deseja Salvar os dados da seguinte sala: \n" + mensagem);
+        
+        if(confirma == JOptionPane.YES_OPTION){
+            JOptionPane.showMessageDialog(this, "Salvo com Sucesso!");
+            tfCadastroSala.setText("");
+            tfCadastroCapacidade.setText("");
+            tfCadastroDescricao.setText("");
+            tfCadastroTipo.setText("");
+            
+        }else if (confirma == JOptionPane.NO_OPTION){
+            this.setVisible(false); // fecha pagina atual
+            Principal p = new Principal();
+            p.setVisible(true); // abre pagina inicial
+            
+        } else {
+            
+        }
+        
+        
+        
+    }//GEN-LAST:event_btnSalvarSalaActionPerformed
 
     /**
      * @param args the command line arguments
