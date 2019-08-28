@@ -5,7 +5,10 @@
  */
 package br.com.ftec.chaves.view;
 
+import br.com.ftec.chaves.control.SalaDAO;
 import br.com.ftec.chaves.model.Sala;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -222,22 +225,27 @@ public class CadastroSala extends javax.swing.JFrame {
         sala.setDescricao(tfCadastroDescricao.getText());
         sala.setTipo(tfCadastroTipo.getText());
         
-        String mensagem = 
-            " Sala: " + sala.getSala() + "\n Capacidade: " + sala.getCapacidade() +
-            "\n Tipo: " + sala.getTipo() + "\n Descrição: " + sala.getDescricao() +
-            "\n \n Salvo com Sucesso!";
+        String mensagem
+                = " Sala: " + sala.getSala() + "\n Capacidade: " + sala.getCapacidade()
+                + "\n Tipo: " + sala.getTipo() + "\n Descrição: " + sala.getDescricao()
+                + "\n \n Salvo com Sucesso!";
         //JOptionPane.showMessageDialog(this, mensagem);
-        int confirma = JOptionPane.showConfirmDialog
-        (this, "Deseja Salvar os dados da seguinte sala: \n" + mensagem);
+        int confirma = JOptionPane.showConfirmDialog(this, "Deseja Salvar os dados da seguinte sala: \n" + mensagem);
         
-        if(confirma == JOptionPane.YES_OPTION){
+        if (confirma == JOptionPane.YES_OPTION) {
             JOptionPane.showMessageDialog(this, "Salvo com Sucesso!");
             tfCadastroSala.setText("");
             tfCadastroCapacidade.setText("");
             tfCadastroDescricao.setText("");
             tfCadastroTipo.setText("");
+            SalaDAO dao = new SalaDAO();
+            try {
+                dao.salvar(sala);
+            } catch (Exception ex) {
+                Logger.getLogger(CadastroSala.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
-        }else if (confirma == JOptionPane.NO_OPTION){
+        } else if (confirma == JOptionPane.NO_OPTION) {
             this.setVisible(false); // fecha pagina atual
             Principal p = new Principal();
             p.setVisible(true); // abre pagina inicial
@@ -246,8 +254,7 @@ public class CadastroSala extends javax.swing.JFrame {
             
         }
         
-        
-        
+
     }//GEN-LAST:event_btnSalvarSalaActionPerformed
 
     /**

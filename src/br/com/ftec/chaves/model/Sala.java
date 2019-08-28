@@ -48,5 +48,9 @@ public class Sala {
         this.tipo = tipo;
     }
     
+    public Sala(){
+        
+    }
+    
     
 }

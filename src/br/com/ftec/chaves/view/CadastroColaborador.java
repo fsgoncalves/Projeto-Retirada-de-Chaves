@@ -5,6 +5,12 @@
  */
 package br.com.ftec.chaves.view;
 
+import br.com.ftec.chaves.control.ColaboradorDAO;
+import br.com.ftec.chaves.model.Colaborador;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author fernando.goncalves
@@ -39,7 +45,7 @@ public class CadastroColaborador extends javax.swing.JFrame {
         tfTelefoneColaborador = new javax.swing.JTextField();
         tfEmailColaborador = new javax.swing.JTextField();
         tpSenhaColaborador = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
+        btnSalvarColaborador = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -68,17 +74,12 @@ public class CadastroColaborador extends javax.swing.JFrame {
 
         jLabel6.setText("E-mail:");
 
-        tfNomeColaborador.setText("Digite o Nome do Colaborador");
-
-        tfCpfColaborador.setText("Digite o CPF do Colaborador");
-
-        tfTelefoneColaborador.setText("Digite a Senha do Colaborador");
-
-        tfEmailColaborador.setText("Digite o E-mail do Colaborador");
-
-        tpSenhaColaborador.setText("jPasswordField1");
-
-        jButton1.setText("Salvar");
+        btnSalvarColaborador.setText("Salvar");
+        btnSalvarColaborador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarColaboradorActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
 
@@ -120,7 +121,7 @@ public class CadastroColaborador extends javax.swing.JFrame {
                         .addGap(35, 35, 35)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel7)
-                            .addComponent(jButton1))
+                            .addComponent(btnSalvarColaborador))
                         .addGap(164, 164, 164)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton2)
@@ -159,7 +160,7 @@ public class CadastroColaborador extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
+                            .addComponent(btnSalvarColaborador)
                             .addComponent(jButton2))
                         .addGap(56, 56, 56)
                         .addComponent(jLabel7))
@@ -235,6 +236,41 @@ public class CadastroColaborador extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_mniReservasActionPerformed
 
+    private void btnSalvarColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarColaboradorActionPerformed
+        // TODO add your handling code here:
+        Colaborador colaborador = new Colaborador();
+        colaborador.setNome(tfNomeColaborador.getText());
+        colaborador.setCpf(tfCpfColaborador.getText());
+        colaborador.setTelefone(tfTelefoneColaborador.getText());
+        colaborador.setSenha(tpSenhaColaborador.getText());
+        colaborador.setEmail(tfEmailColaborador.getText());
+        
+        String mensagem = "Colaborador: " + colaborador.getNome() + "\n CPF: " +
+                colaborador.getCpf() + "\n Telefone: " + colaborador.getTelefone() +
+                "\n E-mail: " + colaborador.getEmail();
+        
+        int confirma = JOptionPane.showConfirmDialog(this, "Deseja Salvar os dados? " + mensagem);
+        
+        if (confirma == JOptionPane.YES_OPTION){
+            
+            JOptionPane.showMessageDialog(this, "Salvo com Sucesso!");
+            tfNomeColaborador.setText("");
+            tfCpfColaborador.setText("");
+            tfTelefoneColaborador.setText("");
+            tpSenhaColaborador.setText("");
+            tfEmailColaborador.setText("");
+            ColaboradorDAO dao = new ColaboradorDAO();
+            
+            try{
+                dao.Salvar(colaborador);
+            } catch (Exception ex) {
+                Logger.getLogger(CadastroColaborador.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+    }//GEN-LAST:event_btnSalvarColaboradorActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -271,7 +307,7 @@ public class CadastroColaborador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnSalvarColaborador;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -294,4 +330,6 @@ public class CadastroColaborador extends javax.swing.JFrame {
     private javax.swing.JTextField tfTelefoneColaborador;
     private javax.swing.JPasswordField tpSenhaColaborador;
     // End of variables declaration//GEN-END:variables
+
+   
 }
