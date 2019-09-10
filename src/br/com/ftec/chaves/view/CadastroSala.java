@@ -5,20 +5,20 @@
  */
 package br.com.ftec.chaves.view;
 
-import br.com.ftec.chaves.control.SalaDAO;
 import br.com.ftec.chaves.model.Sala;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import br.com.ftec.controll.SalaDAO;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.JOptionPane;
 
 /**
  *
- * @author fernando.goncalves
+ * @author ADM
  */
 public class CadastroSala extends javax.swing.JFrame {
 
     /**
-     * Creates new form CadastroSala
+     * Creates new form CadastroSalas
      */
     public CadastroSala() {
         initComponents();
@@ -34,54 +34,47 @@ public class CadastroSala extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        txtNome = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtDescicao = new javax.swing.JTextArea();
         jLabel4 = new javax.swing.JLabel();
+        txtCapacidade = new javax.swing.JSpinner();
+        txtTipo = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        tfCadastroSala = new javax.swing.JTextField();
-        tfCadastroDescricao = new javax.swing.JTextField();
-        tfCadastroCapacidade = new javax.swing.JTextField();
-        tfCadastroTipo = new javax.swing.JTextField();
-        btnCancelarSala = new javax.swing.JButton();
-        btnSalvarSala = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        mniColaborador = new javax.swing.JMenuItem();
-        mniReservas = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        mniRetiradaChaves = new javax.swing.JMenuItem();
+        btnSalvar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Cadastro de Salas");
-
         jLabel2.setText("Sala:");
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setText("CADASTRO DE SALAS");
+
         jLabel3.setText("Descrição:");
+
+        txtDescicao.setColumns(20);
+        txtDescicao.setRows(5);
+        jScrollPane1.setViewportView(txtDescicao);
 
         jLabel4.setText("Capacidade:");
 
         jLabel5.setText("Tipo:");
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/ftec/chaves/view/resources/logo_ftec.png"))); // NOI18N
-
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/ftec/chaves/view/resources/logo_ibgen.png"))); // NOI18N
-
-        tfCadastroTipo.setText("Digite o Tipo da Sala");
-
-        btnCancelarSala.setText("Cancelar");
-
-        btnSalvarSala.setText("Salvar");
-        btnSalvarSala.addActionListener(new java.awt.event.ActionListener() {
+        btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarSalaActionPerformed(evt);
+                btnSalvarActionPerformed(evt);
+            }
+        });
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
             }
         });
 
@@ -89,173 +82,103 @@ public class CadastroSala extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnSalvar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCancelar))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtTipo))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(37, 37, 37)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(tfCadastroDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                            .addComponent(tfCadastroSala))
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtNome))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addComponent(jScrollPane1)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(18, 18, 18)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tfCadastroTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(tfCadastroCapacidade, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnSalvarSala)
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(btnCancelarSala))
-                        .addGap(20, 20, 20))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(184, 184, 184)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtCapacidade, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(tfCadastroSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfCadastroCapacidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
-                .addGap(18, 18, 18)
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(tfCadastroDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfCadastroTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(66, 66, 66)
+                    .addComponent(jLabel4)
+                    .addComponent(txtCapacidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalvarSala)
-                    .addComponent(btnCancelarSala))
-                .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel6))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel5)
+                    .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancelar)
+                    .addComponent(btnSalvar))
+                .addContainerGap())
         );
-
-        jMenu1.setText("Cadastrar");
-
-        mniColaborador.setText("Colaborador");
-        mniColaborador.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniColaboradorActionPerformed(evt);
-            }
-        });
-        jMenu1.add(mniColaborador);
-
-        mniReservas.setText("Reservas");
-        mniReservas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniReservasActionPerformed(evt);
-            }
-        });
-        jMenu1.add(mniReservas);
-        jMenu1.add(jSeparator1);
-
-        mniRetiradaChaves.setText("Tela Principal");
-        mniRetiradaChaves.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mniRetiradaChavesActionPerformed(evt);
-            }
-        });
-        jMenu1.add(mniRetiradaChaves);
-
-        jMenuBar1.add(jMenu1);
-
-        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void mniRetiradaChavesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniRetiradaChavesActionPerformed
-        // TODO add your handling code here:
-        RetiradadeChaves frameRetirada = new RetiradadeChaves();
-        frameRetirada.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_mniRetiradaChavesActionPerformed
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
 
-    private void mniColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniColaboradorActionPerformed
-        // TODO add your handling code here:
-        CadastroColaborador frameCadastroColaborador = new CadastroColaborador();
-        frameCadastroColaborador.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_mniColaboradorActionPerformed
-
-    private void mniReservasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniReservasActionPerformed
-        // TODO add your handling code here:
-        Reservas frameReservas = new Reservas();
-        frameReservas.setVisible(true);
-        this.setVisible(false);
-    }//GEN-LAST:event_mniReservasActionPerformed
-
-    private void btnSalvarSalaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarSalaActionPerformed
-        // TODO add your handling code here:
         Sala sala = new Sala();
-        sala.setSala(tfCadastroSala.getText());
-        sala.setCapacidade(tfCadastroCapacidade.getText());
-        sala.setDescricao(tfCadastroDescricao.getText());
-        sala.setTipo(tfCadastroTipo.getText());
-        
-        String mensagem
-                = " Sala: " + sala.getSala() + "\n Capacidade: " + sala.getCapacidade()
-                + "\n Tipo: " + sala.getTipo() + "\n Descrição: " + sala.getDescricao()
-                + "\n \n Salvo com Sucesso!";
-        //JOptionPane.showMessageDialog(this, mensagem);
-        int confirma = JOptionPane.showConfirmDialog(this, "Deseja Salvar os dados da seguinte sala: \n" + mensagem);
-        
-        if (confirma == JOptionPane.YES_OPTION) {
-            JOptionPane.showMessageDialog(this, "Salvo com Sucesso!");
-            tfCadastroSala.setText("");
-            tfCadastroCapacidade.setText("");
-            tfCadastroDescricao.setText("");
-            tfCadastroTipo.setText("");
-            SalaDAO dao = new SalaDAO();
-            try {
-                dao.salvar(sala);
-            } catch (Exception ex) {
-                Logger.getLogger(CadastroSala.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-        } else if (confirma == JOptionPane.NO_OPTION) {
-            this.setVisible(false); // fecha pagina atual
-            Principal p = new Principal();
-            p.setVisible(true); // abre pagina inicial
-            
-        } else {
-            
-        }
-        
 
-    }//GEN-LAST:event_btnSalvarSalaActionPerformed
+        sala.setSala(txtNome.getText());
+        sala.setDescricao(txtDescicao.getText());
+        sala.setCapacidade((int) txtCapacidade.getValue());
+        sala.setTipo(txtTipo.getText());
+
+        String msg = "Sala: " + sala.getSala() + "\n"
+                + "Capacidade: " + sala.getCapacidade() + "\n"
+                + "Tipo: " + sala.getTipo() + "\n"
+                + "Descrição: " + sala.getDescricao() + "\n\n"
+                + "Salvo com sucesso.";
+        JOptionPane.showMessageDialog(this, msg);
+
+        SalaDAO dao = new SalaDAO();
+        dao.salvar(sala);
+        this.dispose();
+        Principal rs = new Principal();
+        rs.setVisible(true);
+
+    }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -283,6 +206,9 @@ public class CadastroSala extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(CadastroSala.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -293,25 +219,18 @@ public class CadastroSala extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCancelarSala;
-    private javax.swing.JButton btnSalvarSala;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JMenuItem mniColaborador;
-    private javax.swing.JMenuItem mniReservas;
-    private javax.swing.JMenuItem mniRetiradaChaves;
-    private javax.swing.JTextField tfCadastroCapacidade;
-    private javax.swing.JTextField tfCadastroDescricao;
-    private javax.swing.JTextField tfCadastroSala;
-    private javax.swing.JTextField tfCadastroTipo;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner txtCapacidade;
+    private javax.swing.JTextArea txtDescicao;
+    private javax.swing.JTextField txtNome;
+    private javax.swing.JTextField txtTipo;
     // End of variables declaration//GEN-END:variables
 }
