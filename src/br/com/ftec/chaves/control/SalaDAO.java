@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -68,5 +70,34 @@ public class SalaDAO {
         }
         
         return sl;
+    }
+    
+    public List<Sala> listaSalas() throws Exception {
+        
+       String sqli =  "SELECT * FROM SALA";
+        
+       Connection conn = null;
+       PreparedStatement pstm = null;
+        // Classe que vai recuperar os dados do BD
+       ResultSet rset = null;
+       
+        ArrayList<Sala> listaSalas = new ArrayList<Sala>();
+        
+        conn = ConnectionFactory.createConnectionToMySQL();
+        pstm = conn.prepareStatement(sqli);
+        rset = pstm.executeQuery();
+        
+        while(rset.next()) {
+            
+            Sala s = new Sala();
+            s.setId(rset.getInt("id"));
+            s.setDescricao(rset.getString("descricao"));
+            s.setSala(rset.getString("sala"));
+            s.setTipo(rset.getString("tipo"));
+            s.setCapacidade(rset.getInt("capacidade"));
+            listaSalas.add(s);
+        }
+       
+        return listaSalas;
     }
 }

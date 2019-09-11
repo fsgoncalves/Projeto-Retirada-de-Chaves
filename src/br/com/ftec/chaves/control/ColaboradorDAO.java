@@ -6,10 +6,13 @@
 package br.com.ftec.chaves.control;
 
 import br.com.ftec.chaves.model.Colaborador;
+import br.com.ftec.chaves.model.Sala;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,6 +68,36 @@ public class ColaboradorDAO {
         }
 
         return colaborador;
+    }
+    
+    public List<Colaborador> listaColaboradores() throws Exception {
+        
+       String sqli =  "SELECT * FROM COLABORADOR";
+        
+       Connection conn = null;
+       PreparedStatement pstm = null;
+        // Classe que vai recuperar os dados do BD
+       ResultSet rset = null;
+       
+        ArrayList<Colaborador> listaColaboradores = new ArrayList<Colaborador>();
+        
+        conn = ConnectionFactory.createConnectionToMySQL();
+        pstm = conn.prepareStatement(sqli);
+        rset = pstm.executeQuery();
+        
+        while(rset.next()) {
+            
+            Colaborador c = new Colaborador();
+            c.setId(rset.getInt("id"));
+            c.setEmail(rset.getString("email"));
+            c.setNome(rset.getString("nome"));
+            c.setSenha(rset.getString("senha"));
+            c.setTelefone(rset.getString("telefone"));
+            c.setCpf(rset.getString("cpf"));
+            listaColaboradores.add(c);
+        }
+       
+        return listaColaboradores();
     }
 
 }

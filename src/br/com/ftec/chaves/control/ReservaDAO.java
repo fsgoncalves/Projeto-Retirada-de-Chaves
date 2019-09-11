@@ -5,11 +5,15 @@
  */
 package br.com.ftec.chaves.control;
 
+import br.com.ftec.chaves.model.Colaborador;
 import br.com.ftec.chaves.model.Reserva;
 import br.com.ftec.chaves.model.Sala;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,6 +44,39 @@ public class ReservaDAO {
             Logger.getLogger(ReservaDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    public List<Reserva> listaReservas() throws Exception {
+        
+       String sqli =  "SELECT * FROM RESERVA";
+        
+       Connection conn = null;
+       PreparedStatement pstm = null;
+        // Classe que vai recuperar os dados do BD
+       ResultSet rset = null;
+       
+        ArrayList<Reserva> listaReservas = new ArrayList<Reserva>();
+        
+        conn = ConnectionFactory.createConnectionToMySQL();
+        pstm = conn.prepareStatement(sqli);
+        rset = pstm.executeQuery();
+        
+        while(rset.next()) {
+            
+            Reserva reserva = new Reserva();
+            Colaborador c = new Colaborador();
+            Sala s = new Sala();
+            
+            c.setId(rset.getInt("id_colaborador"));
+            reserva.setColaborador(c);
+            s.setId(rset.getInt("id_sala"));
+            reserva.setSala(s);
+            reserva.setDia(rset.getString("dia"));
+            reserva.setTurno(rset.getString("turnp"));
+            listaReservas.add(reserva);
+        }
+       
+        return listaReservas();
     }
     
 }
