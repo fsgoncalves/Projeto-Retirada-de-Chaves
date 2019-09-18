@@ -7,10 +7,16 @@ package br.com.ftec.chaves.view;
 
 import br.com.ftec.chaves.control.ColaboradorDAO;
 import br.com.ftec.chaves.control.ReservaDAO;
+import br.com.ftec.chaves.control.SalaDAO;
+import br.com.ftec.chaves.model.Colaborador;
 import br.com.ftec.chaves.model.Reserva;
-import br.com.ftec.controll.SalaDAO;
+import br.com.ftec.chaves.model.Sala;
+//import br.com.ftec.controll.SalaDAO;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -36,12 +42,9 @@ public class Reservas extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtSala = new javax.swing.JTextField();
-        txtData = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         cmbTurno = new javax.swing.JComboBox();
-        txtResponsavel = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         btnReservar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -49,6 +52,9 @@ public class Reservas extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         txtSenha = new javax.swing.JPasswordField();
         jLabel7 = new javax.swing.JLabel();
+        cmbSala = new javax.swing.JComboBox<>();
+        cmbDiaSemana = new javax.swing.JComboBox<>();
+        cmbResponsavel = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnReservarSala = new javax.swing.JMenu();
         btnCadastroSala = new javax.swing.JMenu();
@@ -59,10 +65,6 @@ public class Reservas extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Sala:");
 
-        txtSala.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
-        txtData.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Dia da Semana");
 
@@ -70,14 +72,7 @@ public class Reservas extends javax.swing.JFrame {
         jLabel3.setText("Turno:");
 
         cmbTurno.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        cmbTurno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        txtResponsavel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        txtResponsavel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtResponsavelActionPerformed(evt);
-            }
-        });
+        cmbTurno.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "manha", "tarde", "noite" }));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Responsável:");
@@ -116,6 +111,12 @@ public class Reservas extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Senha:");
 
+        cmbSala.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cmbDiaSemana.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sabado", "Domingo" }));
+
+        cmbResponsavel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -124,32 +125,38 @@ public class Reservas extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSala, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtResponsavel))
-                    .addComponent(jScrollPane1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(cmbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(53, 53, 53))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(cmbSala, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(cmbDiaSemana, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel7))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(cmbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(53, 53, 53))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnReservar))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnReservar)))))
+                                .addComponent(cmbResponsavel, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(53, 53, 53)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -158,21 +165,21 @@ public class Reservas extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(txtResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbSala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbResponsavel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(cmbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbDiaSemana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReservar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -235,21 +242,17 @@ public class Reservas extends javax.swing.JFrame {
   
     }//GEN-LAST:event_btnCadastroColaboradorMouseClicked
 
-    private void txtResponsavelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtResponsavelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtResponsavelActionPerformed
-
     private void btnReservarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReservarActionPerformed
         // TODO add your handling code here:
         Reserva r = new Reserva();
-        r.setDia(txtData.getText());
+        r.setTurno(cmbDiaSemana.getSelectedItem().toString());
         r.setTurno(cmbTurno.getSelectedItem().toString());
         
         ColaboradorDAO c = new ColaboradorDAO();
         SalaDAO s = new SalaDAO();
         try {
-            r.setColaborador(c.buscaColaboradorCpf(txtResponsavel.getText()));
-            r.setSala(s.buscaSalaPorSala(txtSala.getText()));
+            r.setColaborador(c.buscaColaboradorCpf(cmbResponsavel.getSelectedItem().toString()));
+            r.setSala(s.buscaSalaPorSala(cmbSala.getSelectedItem().toString()));
             ReservaDAO dao = new ReservaDAO();
             dao.salvar(r);
         } catch (Exception ex) {
@@ -290,9 +293,50 @@ public class Reservas extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Reservas().setVisible(true);
+                Reservas reservas = new Reservas();
+                reservas.setVisible(true);
+                try {
+                    reservas.montaComboSala();
+                    reservas.montaComboColaborador();
+                } catch (Exception ex) {
+                    Logger.getLogger(Reservas.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
+    }
+    
+    public void montaComboSala() throws Exception{
+        
+        List<Sala> listaSalaObjeto = new ArrayList<>();
+        List<String> listaSalaDescricao = new ArrayList<>();
+        
+        SalaDAO salaDao = new SalaDAO();
+        listaSalaObjeto = salaDao.listaSalas();
+        
+        for (int i = 0; i < listaSalaObjeto.size(); i++){
+            listaSalaDescricao.add(listaSalaObjeto.get(i).getSala());
+        }
+        
+        DefaultComboBoxModel dfcmb = new DefaultComboBoxModel(listaSalaDescricao.toArray());
+        cmbSala.setModel(dfcmb);   
+    }
+    
+    public void montaComboColaborador() throws Exception{
+        
+        List<Colaborador> listaColaboradorObjeto = new ArrayList<>();
+        //List<String> listaColaboradorNome = new ArrayList<>();
+        
+        ColaboradorDAO colaboradorDao = new ColaboradorDAO();
+        listaColaboradorObjeto = colaboradorDao.listaColaboradores();
+        
+       /* for (int i = 0; i < listaColaboradorObjeto.size(); i++){
+            listaColaboradorNome.add(listaColaboradorObjeto.get(i).getNome());
+        }*/
+        
+        DefaultComboBoxModel dfcmb = new DefaultComboBoxModel(listaColaboradorObjeto.toArray());
+        cmbResponsavel.setModel(dfcmb);
+        
+        // reescrever o método toString()
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -300,6 +344,9 @@ public class Reservas extends javax.swing.JFrame {
     private javax.swing.JMenu btnCadastroSala;
     private javax.swing.JButton btnReservar;
     private javax.swing.JMenu btnReservarSala;
+    private javax.swing.JComboBox<String> cmbDiaSemana;
+    private javax.swing.JComboBox<String> cmbResponsavel;
+    private javax.swing.JComboBox<String> cmbSala;
     private javax.swing.JComboBox cmbTurno;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -311,9 +358,6 @@ public class Reservas extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtData;
-    private javax.swing.JTextField txtResponsavel;
-    private javax.swing.JTextField txtSala;
     private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 }

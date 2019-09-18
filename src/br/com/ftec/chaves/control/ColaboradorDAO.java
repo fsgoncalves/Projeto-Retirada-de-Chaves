@@ -97,7 +97,7 @@ public class ColaboradorDAO {
             listaColaboradores.add(c);
         }
        
-        return listaColaboradores();
+        return listaColaboradores;
     }
 
 }
