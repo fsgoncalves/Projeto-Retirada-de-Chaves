@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -48,13 +49,13 @@ public class Reservas extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         btnReservar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         txtSenha = new javax.swing.JPasswordField();
         jLabel7 = new javax.swing.JLabel();
         cmbSala = new javax.swing.JComboBox<>();
         cmbDiaSemana = new javax.swing.JComboBox<>();
         cmbResponsavel = new javax.swing.JComboBox<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbReservas = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         btnReservarSala = new javax.swing.JMenu();
         btnCadastroSala = new javax.swing.JMenu();
@@ -85,27 +86,6 @@ public class Reservas extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTable1);
-
         txtSenha.setText("jPasswordField1");
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -117,6 +97,19 @@ public class Reservas extends javax.swing.JFrame {
 
         cmbResponsavel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        tbReservas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tbReservas);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -124,8 +117,10 @@ public class Reservas extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSeparator1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
@@ -138,7 +133,7 @@ public class Reservas extends javax.swing.JFrame {
                                 .addComponent(cmbDiaSemana, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel7))
@@ -179,10 +174,10 @@ public class Reservas extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReservar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -262,6 +257,31 @@ public class Reservas extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnReservarActionPerformed
 
+    
+    private void montaTabela() throws Exception{
+        DefaultTableModel dftm = (DefaultTableModel) tbReservas.getModel();
+        dftm.setNumRows(0);
+        tbReservas.getColumnModel().getColumn(0).setPreferredWidth(20);
+        tbReservas.getColumnModel().getColumn(0).setHeaderValue("Colaborador");
+        tbReservas.getColumnModel().getColumn(1).setPreferredWidth(20);
+        tbReservas.getColumnModel().getColumn(1).setHeaderValue("Dia");
+        tbReservas.getColumnModel().getColumn(2).setPreferredWidth(20);
+        tbReservas.getColumnModel().getColumn(2).setHeaderValue("Sala");
+        tbReservas.getColumnModel().getColumn(3).setPreferredWidth(20);
+        tbReservas.getColumnModel().getColumn(3).setHeaderValue("Turno");
+        
+        ReservaDAO dao = new ReservaDAO();
+        
+        for(Reserva r: dao.listaReservas()){
+            dftm.addRow(new Object[]{
+                
+                r.getColaborador().getId(),
+                r.getDia(),
+                r.getSala().getId(),
+                r.getTurno(),}
+            );
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -298,6 +318,7 @@ public class Reservas extends javax.swing.JFrame {
                 try {
                     reservas.montaComboSala();
                     reservas.montaComboColaborador();
+                    reservas.montaTabela();
                 } catch (Exception ex) {
                     Logger.getLogger(Reservas.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -355,9 +376,9 @@ public class Reservas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tbReservas;
     private javax.swing.JPasswordField txtSenha;
     // End of variables declaration//GEN-END:variables
 }

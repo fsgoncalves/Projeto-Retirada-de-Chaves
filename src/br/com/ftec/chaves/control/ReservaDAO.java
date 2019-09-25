@@ -72,11 +72,11 @@ public class ReservaDAO {
             s.setId(rset.getInt("id_sala"));
             reserva.setSala(s);
             reserva.setDia(rset.getString("dia"));
-            reserva.setTurno(rset.getString("turnp"));
+            reserva.setTurno(rset.getString("turno"));
             listaReservas.add(reserva);
         }
        
-        return listaReservas();
+        return listaReservas;
     }
     
 }

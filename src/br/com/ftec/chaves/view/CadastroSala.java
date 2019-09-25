@@ -6,10 +6,13 @@
 package br.com.ftec.chaves.view;
 
 import br.com.ftec.chaves.model.Sala;
-import br.com.ftec.controll.SalaDAO;
+import br.com.ftec.chaves.control.SalaDAO;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,6 +25,30 @@ public class CadastroSala extends javax.swing.JFrame {
      */
     public CadastroSala() {
         initComponents();
+    }
+
+    private void montaTabelaSala() throws Exception {
+        DefaultTableModel dftm = (DefaultTableModel) tbSalas.getModel();
+        dftm.setNumRows(0);
+        tbSalas.getColumnModel().getColumn(0).setPreferredWidth(20);
+        tbSalas.getColumnModel().getColumn(0).setHeaderValue("Sala");
+        tbSalas.getColumnModel().getColumn(1).setPreferredWidth(20);
+        tbSalas.getColumnModel().getColumn(1).setHeaderValue("Descrição");
+        tbSalas.getColumnModel().getColumn(2).setPreferredWidth(20);
+        tbSalas.getColumnModel().getColumn(2).setHeaderValue("Capacidade");
+        tbSalas.getColumnModel().getColumn(3).setPreferredWidth(20);
+        tbSalas.getColumnModel().getColumn(3).setHeaderValue("Tipo");
+
+        SalaDAO dao = new SalaDAO();
+
+        for (Sala s : dao.listaSalas()) {
+            dftm.addRow(new Object[]{
+                s.getSala(),
+                s.getDescricao(),
+                s.getCapacidade(),
+                s.getTipo()}
+            );
+        }
     }
 
     /**
@@ -46,6 +73,8 @@ public class CadastroSala extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbSalas = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -136,17 +165,38 @@ public class CadastroSala extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        tbSalas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tbSalas);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -169,7 +219,11 @@ public class CadastroSala extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, msg);
 
         SalaDAO dao = new SalaDAO();
-        dao.salvar(sala);
+        try {
+            dao.salvar(sala);
+        } catch (Exception ex) {
+            Logger.getLogger(CadastroSala.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.dispose();
         Principal rs = new Principal();
         rs.setVisible(true);
@@ -213,10 +267,18 @@ public class CadastroSala extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CadastroSala().setVisible(true);
+                try {
+                    CadastroSala salas = new CadastroSala();
+                    salas.setVisible(true);
+                    salas.montaTabelaSala();
+                } catch (Exception ex) {
+                    Logger.getLogger(CadastroSala.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
             }
         });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -228,6 +290,8 @@ public class CadastroSala extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tbSalas;
     private javax.swing.JSpinner txtCapacidade;
     private javax.swing.JTextArea txtDescicao;
     private javax.swing.JTextField txtNome;
