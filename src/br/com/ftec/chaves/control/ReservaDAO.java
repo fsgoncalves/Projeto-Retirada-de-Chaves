@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,7 +26,7 @@ public class ReservaDAO {
     
     public void salvar(Reserva reserva) throws Exception {
 
-        String sql = "insert into reserva (id_sala,id_colaborador, turno, dia)" +
+        String sql = "insert into reservas (id_sala,id_colaborador, turno, dia)" +
        "VALUES (?,?,?,?)"; 
 
         Connection conn = null;
@@ -48,7 +49,7 @@ public class ReservaDAO {
     
     public List<Reserva> listaReservas() throws Exception {
         
-       String sqli =  "SELECT * FROM RESERVA";
+       String sqli =  "SELECT * FROM RESERVAS";
         
        Connection conn = null;
        PreparedStatement pstm = null;
@@ -77,6 +78,24 @@ public class ReservaDAO {
         }
        
         return listaReservas;
+    }
+    
+    public void excluirReserva(int id) throws Exception {
+        String sql = "delete from salas where id = "+id;
+        
+        Connection conn = null;
+       PreparedStatement pstm = null;
+        // Classe que vai recuperar os dados do BD
+       ResultSet rset = null;
+       
+        conn = ConnectionFactory.createConnectionToMySQL();
+        pstm = conn.prepareStatement(sql);
+        try{
+        pstm.executeUpdate();
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Existe uma reserva cadastrada"
+                                         + " para esta sala!");
+        }
     }
     
 }

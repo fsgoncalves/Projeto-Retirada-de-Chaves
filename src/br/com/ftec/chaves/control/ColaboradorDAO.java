@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,7 +25,7 @@ public class ColaboradorDAO {
 
     public void Salvar(Colaborador colaborador) throws Exception {
 
-        String sql = "INSERT INTO colaborador(nome, cpf, senha, telefone, email)"
+        String sql = "INSERT INTO colaboradores(nome, cpf, senha, telefone, email)"
                 + "VALUES(?,?,?,?,?)";
 
         Connection conn = null;
@@ -46,7 +47,7 @@ public class ColaboradorDAO {
 
     public Colaborador buscaColaboradorCpf(String cpf) throws Exception {
 
-        String sql = "SELECT * FROM COLABORADOR WHERE CPF = " + cpf;
+        String sql = "SELECT * FROM COLABORADORES WHERE CPF = " + cpf;
 
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -72,7 +73,7 @@ public class ColaboradorDAO {
     
     public List<Colaborador> listaColaboradores() throws Exception {
         
-       String sqli =  "SELECT * FROM COLABORADOR";
+       String sqli =  "SELECT * FROM COLABORADORES";
         
        Connection conn = null;
        PreparedStatement pstm = null;
@@ -98,6 +99,24 @@ public class ColaboradorDAO {
         }
        
         return listaColaboradores;
+    }
+    
+    public void excluirColaborador(int id) throws Exception {
+        String sql = "delete from colaboradores where id = "+id;
+        
+        Connection conn = null;
+       PreparedStatement pstm = null;
+        // Classe que vai recuperar os dados do BD
+       ResultSet rset = null;
+       
+        conn = ConnectionFactory.createConnectionToMySQL();
+        pstm = conn.prepareStatement(sql);
+        try{
+        pstm.executeUpdate();
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Este colaborador esta vinculado"
+                                         + " a uma reserva!");
+        }
     }
 
 }

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -25,7 +26,7 @@ public class SalaDAO {
 
     public void salvar(Sala sala) throws Exception {
 
-        String sql = "INSERT INTO sala(sala, descricao, capacidade, tipo) "
+        String sql = "INSERT INTO salas(sala, descricao, capacidade, tipo) "
                 + "VALUES (?,?,?,?)";
 
         Connection conn = null;
@@ -48,13 +49,12 @@ public class SalaDAO {
     
     public Sala buscaSalaPorSala(String sala) throws Exception {
         
-        String sql = "SELECT * FROM SALA WHERE SALA = ? ";
+        String sql = "SELECT * FROM SALAS WHERE SALA = '"+sala+"'";
         
         Connection conn = null;
         PreparedStatement pstm = null;
         // Classe que vai recuperar os dados do BD
         ResultSet rset = null;
-        pstm.setString(1, sala);
         Sala sl = new Sala();
         
         conn = ConnectionFactory.createConnectionToMySQL();
@@ -74,7 +74,7 @@ public class SalaDAO {
     
     public List<Sala> listaSalas() throws Exception {
         
-       String sqli =  "SELECT * FROM SALA";
+       String sqli =  "SELECT * FROM SALAS";
         
        Connection conn = null;
        PreparedStatement pstm = null;
@@ -99,5 +99,23 @@ public class SalaDAO {
         }
        
         return listaSalas;
+    }
+
+    public void excluirSala(int id) throws Exception {
+        String sql = "delete from salas where id = "+id;
+        
+        Connection conn = null;
+       PreparedStatement pstm = null;
+        // Classe que vai recuperar os dados do BD
+       ResultSet rset = null;
+       
+        conn = ConnectionFactory.createConnectionToMySQL();
+        pstm = conn.prepareStatement(sql);
+        try{
+        pstm.executeUpdate();
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(null, "Existe uma reserva cadastrada"
+                                         + " para esta sala!");
+        }
     }
 }

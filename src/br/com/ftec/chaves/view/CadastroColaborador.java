@@ -7,6 +7,7 @@ package br.com.ftec.chaves.view;
 
 import br.com.ftec.chaves.control.ColaboradorDAO;
 import br.com.ftec.chaves.model.Colaborador;
+import java.awt.event.MouseAdapter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -17,14 +18,14 @@ import javax.swing.table.DefaultTableModel;
  * @author ADM
  */
 public class CadastroColaborador extends javax.swing.JFrame {
-
+private int id;
     /**
      * Creates new form cadastroColaborador
      */
     public CadastroColaborador() {
         initComponents();
     }
-    
+
     private void montaTabelaColaborador() throws Exception {
         DefaultTableModel dftm = (DefaultTableModel) tbColaborador.getModel();
         dftm.setNumRows(0);
@@ -76,8 +77,12 @@ public class CadastroColaborador extends javax.swing.JFrame {
         btnSalvar = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         txtSenha = new javax.swing.JPasswordField();
+        btnExcluir = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbColaborador = new javax.swing.JTable();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        mCadastroReservas = new javax.swing.JMenu();
+        mCadastroSala = new javax.swing.JMenu();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -126,6 +131,13 @@ public class CadastroColaborador extends javax.swing.JFrame {
             }
         });
 
+        btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -158,6 +170,8 @@ public class CadastroColaborador extends javax.swing.JFrame {
                                     .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
                                     .addComponent(txtTelefone)))
                             .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnExcluir)
+                                .addGap(18, 18, 18)
                                 .addComponent(btnSalvar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnCancelar)))))
@@ -191,8 +205,9 @@ public class CadastroColaborador extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
-                    .addComponent(btnCancelar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCancelar)
+                    .addComponent(btnExcluir))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         tbColaborador.setModel(new javax.swing.table.DefaultTableModel(
@@ -206,6 +221,11 @@ public class CadastroColaborador extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbColaborador.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbColaboradorMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbColaborador);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -231,9 +251,27 @@ public class CadastroColaborador extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 35, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        mCadastroReservas.setText("Cadastro de Reservas");
+        mCadastroReservas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mCadastroReservasMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(mCadastroReservas);
+
+        mCadastroSala.setText("Cadastro de Salas");
+        mCadastroSala.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mCadastroSalaMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(mCadastroSala);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -262,7 +300,30 @@ public class CadastroColaborador extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarMouseClicked
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-
+        Colaborador colaborador = new Colaborador();
+        
+        colaborador.setNome(txtNome.getText());
+        colaborador.setCpf(txtCPF.getText());
+        colaborador.setSenha(txtSenha.getText());
+        colaborador.setTelefone(txtTelefone.getText());
+        colaborador.setEmail(txtEmail.getText());
+        
+        String msg = "Cpf: " + colaborador.getCpf() + "\n"
+                + "Nome: " + colaborador.getNome() + "\n"
+                + "Telefone: " + colaborador.getTelefone() + "\n"
+                + "Email: " + colaborador.getEmail() + "\n\n"
+                + "Salvo com sucesso.";
+        JOptionPane.showMessageDialog(this, msg);
+        
+        ColaboradorDAO dao = new ColaboradorDAO();
+        
+    try {
+        dao.Salvar(colaborador);
+        montaTabelaColaborador();
+    } catch (Exception ex) {
+        Logger.getLogger(CadastroColaborador.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        
         /* Criar um objeto do tipo colaborador
         fazer set de todos os atributos pegando os valores da tela
         chamar o ColaboradorDAO
@@ -270,6 +331,64 @@ public class CadastroColaborador extends javax.swing.JFrame {
         fechar essa tela
         abrir o principal.*/
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void tbColaboradorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbColaboradorMouseClicked
+        // TODO add your handling code here:
+        //int linha = tbColaborador.getSelectedRow();
+        
+        int linha = tbColaborador.getSelectedRow();
+        String valor = (String) tbColaborador.getValueAt(linha, 1);
+        ColaboradorDAO colaboradordao = new ColaboradorDAO();
+        try {
+           Colaborador colaborador1 =  colaboradordao.buscaColaboradorCpf(valor);
+           
+           txtNome.setText(colaborador1.getNome());
+           txtNome.setEnabled(false);
+           txtCPF.setText(colaborador1.getCpf());
+           txtCPF.setEnabled(false);
+           txtSenha.setText(colaborador1.getSenha());
+           txtSenha.setEnabled(false);
+           txtTelefone.setText(colaborador1.getTelefone());
+           txtTelefone.setEnabled(false);
+           txtEmail.setText(colaborador1.getEmail());
+           txtEmail.setEnabled(false);
+           id = colaborador1.getId();
+        } catch (Exception ex) {
+            Logger.getLogger(CadastroSala.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       // int col = tbColaborador.getSelectedColumn();
+    }//GEN-LAST:event_tbColaboradorMouseClicked
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // TODO add your handling code here:
+        
+        ColaboradorDAO dao = new ColaboradorDAO();
+    try {
+        dao.excluirColaborador(id);
+        montaTabelaColaborador();
+    } catch (Exception ex) {
+        Logger.getLogger(CadastroColaborador.class.getName()).log(Level.SEVERE, null, ex);
+    }
+        
+        
+        
+       
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void mCadastroReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mCadastroReservasMouseClicked
+        // TODO add your handling code here:
+        Reservas reserva = new Reservas();
+        reserva.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_mCadastroReservasMouseClicked
+
+    private void mCadastroSalaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mCadastroSalaMouseClicked
+        // TODO add your handling code here:
+        CadastroSala cs = new CadastroSala();
+        cs.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_mCadastroSalaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -315,6 +434,7 @@ public class CadastroColaborador extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -322,12 +442,15 @@ public class CadastroColaborador extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JMenu mCadastroReservas;
+    private javax.swing.JMenu mCadastroSala;
     private javax.swing.JTable tbColaborador;
     private javax.swing.JTextField txtCPF;
     private javax.swing.JTextField txtEmail;

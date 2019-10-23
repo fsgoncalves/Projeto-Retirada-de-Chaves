@@ -24,7 +24,7 @@ import javax.swing.table.DefaultTableModel;
  * @author ADM
  */
 public class Reservas extends javax.swing.JFrame {
-
+    private int id;
     /**
      * Creates new form Monitor
      */
@@ -57,7 +57,6 @@ public class Reservas extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tbReservas = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
-        btnReservarSala = new javax.swing.JMenu();
         btnCadastroSala = new javax.swing.JMenu();
         btnCadastroColaborador = new javax.swing.JMenu();
 
@@ -108,6 +107,11 @@ public class Reservas extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbReservas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbReservasMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbReservas);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -181,14 +185,6 @@ public class Reservas extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnReservarSala.setText("Reservar sala");
-        btnReservarSala.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnReservarSalaMouseClicked(evt);
-            }
-        });
-        jMenuBar1.add(btnReservarSala);
-
         btnCadastroSala.setText("Cadastrar sala");
         btnCadastroSala.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -224,16 +220,17 @@ public class Reservas extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnReservarSalaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnReservarSalaMouseClicked
-        new Principal().setVisible(true);
-    }//GEN-LAST:event_btnReservarSalaMouseClicked
-
     private void btnCadastroSalaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastroSalaMouseClicked
-       
+       CadastroSala cs = new CadastroSala();
+       cs.setVisible(true);
+       this.setVisible(false);
     }//GEN-LAST:event_btnCadastroSalaMouseClicked
 
     private void btnCadastroColaboradorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCadastroColaboradorMouseClicked
         //new LoginColaborador().setVisible(true);
+        CadastroColaborador cc = new CadastroColaborador();
+        cc.setVisible(true);
+        this.setVisible(false);
   
     }//GEN-LAST:event_btnCadastroColaboradorMouseClicked
 
@@ -256,6 +253,11 @@ public class Reservas extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_btnReservarActionPerformed
+
+    private void tbReservasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbReservasMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_tbReservasMouseClicked
 
     
     private void montaTabela() throws Exception{
@@ -364,7 +366,6 @@ public class Reservas extends javax.swing.JFrame {
     private javax.swing.JMenu btnCadastroColaborador;
     private javax.swing.JMenu btnCadastroSala;
     private javax.swing.JButton btnReservar;
-    private javax.swing.JMenu btnReservarSala;
     private javax.swing.JComboBox<String> cmbDiaSemana;
     private javax.swing.JComboBox<String> cmbResponsavel;
     private javax.swing.JComboBox<String> cmbSala;
